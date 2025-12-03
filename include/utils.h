@@ -21,13 +21,11 @@ void utils_pause(void);
  */
 int utils_get_int(void);
 
-
 /**
  * Scans a float value from the user with validation.
  *
  * @return The valid float entered by the user.
  */
-
 float utils_get_float(void);
 
 /**
