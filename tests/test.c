@@ -15,5 +15,6 @@ int main() {
     } else {
         printf("Invalid email\n");
     }
+    utils_pause();
     return 0;
 }
