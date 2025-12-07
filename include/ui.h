@@ -168,9 +168,5 @@ void ui_pause(void);
  * @param box_width The width of the box.
  */
  void ui_print_menu(const char *title, const char *items[], int item_count, int box_width);
- void ui_print_menu(const char *title, const char *items[], int item_count, int box_width);
 
  #endif
- 
- #endif
- 

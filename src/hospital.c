@@ -7,6 +7,7 @@
  */
 
 #include "../include/hospital.h"
+#include <stddef.h>
 
 Patient patients[MAX_PATIENTS];
 Doctor doctors[MAX_DOCTORS];
