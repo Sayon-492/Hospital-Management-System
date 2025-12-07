@@ -59,12 +59,17 @@ char utils_get_char(void) {
 }
 
 char* utils_get_string(char *str, size_t size) {
-    if (fgets(str, size, stdin) != NULL) {
-        str[strcspn(str, "\n")] = '\0';
-    } else {
-        return NULL;
+    while (1) {
+        if (fgets(str, size, stdin) != NULL) {
+            str[strcspn(str, "\n")] = '\0';
+            if (str[0] != '\0') {
+                return str;
+            }
+            printf("Input cannot be empty. Try again: ");
+        } else {
+            return NULL;
+        }
     }
-    return str;
 }
 
 /**
@@ -138,4 +143,51 @@ char* utils_str_to_upper(char *str) {
         str[i] = toupper(str[i]);
     }
     return str;
+}
+
+char* utils_fix_name(char *name) {
+    if (name == NULL || name[0] == '\0') return name;
+    
+    bool new_word = true;
+    for (int i = 0; name[i] != '\0'; i++) {
+        if (name[i] == ' ') {
+            new_word = true;
+        } else if (new_word) {
+            name[i] = toupper(name[i]);
+            new_word = false;
+        } else {
+            name[i] = tolower(name[i]);
+        }
+    }
+    return name;
+}
+
+bool utils_is_valid_blood_group(const char *blood_group) {
+    if (blood_group == NULL || blood_group[0] == '\0') return false;
+    
+    const char* valid_blood_groups[] = {
+        "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "U",
+        "a+", "a-", "b+", "b-", "ab+", "ab-", "o+", "o-", "u"
+    };
+    int count = sizeof(valid_blood_groups) / sizeof(valid_blood_groups[0]);
+
+    for (int i = 0; i < count; i++) {
+        if (strcmp(blood_group, valid_blood_groups[i]) == 0) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+bool utils_is_valid_address(const char *address) {
+    if (address == NULL || address[0] == '\0') return false;
+    
+    for (int i = 0; address[i] != '\0'; i++) {
+        char c = address[i];
+        if (!isalnum(c) && c != ' ' && c != ',' && c != '.') {
+            return false;
+        }
+    }
+    return true;
 }

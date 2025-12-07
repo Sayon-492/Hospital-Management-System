@@ -29,23 +29,23 @@ void ui_pause(void) {
 
 void ui_print_header(const char *title) {
     ui_clear_screen();
-    printf(MAGENTA "%s\n" RESET, title);
+    printf(MAGENTA "\n%s\n" RESET, title);
 }
 
 void ui_print_success(const char *message) {
-    printf(GREEN "%s" RESET "\n", message);
+    printf(GREEN "\n%s" RESET "\n", message);
 }
 
 void ui_print_error(const char *message) {
-    printf(RED "%s" RESET "\n", message);
+    printf(RED "\n%s" RESET "\n", message);
 }
 
 void ui_print_warning(const char *message) {
-    printf(YELLOW "%s" RESET "\n", message);
+    printf(YELLOW "\n%s" RESET "\n", message);
 }
 
 void ui_print_info(const char *message) {
-    printf(BLUE "%s" RESET "\n", message);
+    printf(BLUE "\n%s" RESET "\n", message);
 }
 
 
@@ -122,7 +122,7 @@ void ui_print_menu
     for (int i = 0; i < box_width; i++) printf(" ");
     printf(BRIGHT_BLACK "%c" RESET "\n", v);
     
-    for (int i = 0; i < item_count; i++) {
+    for (int i = 0; i < item_count - 1; i++) {
         int item_len = strlen(items[i]);
         printf(BRIGHT_BLACK "%c" RESET "  " SOFT_YELLOW BOLD "%d. %s" RESET, v, i + 1, items[i]);
         for (int j = 0; j < box_width - item_len - 5; j++) printf(" ");
@@ -136,5 +136,5 @@ void ui_print_menu
     for (int i = 0; i < box_width; i++) printf("%c", h);
     printf("%c" RESET "\n\n", br);
     
-    printf(BOLD SOFT_GREEN "Enter your choice : " RESET);
+    printf(BOLD SOFT_GREEN "%s" RESET, items[item_count - 1]);
 }

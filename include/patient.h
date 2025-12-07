@@ -19,12 +19,12 @@ int generate_patient_id(void);
 /**
  * Handles the search choice for patient.
  */
-void search_patient_by(void);
+ void search_patient_by(void);
 
 /**
  * Displays the patient management menu and handles user input.
  */
-void receptionist_menu(void);
+ void receptionist_menu(void);
 
 
 #endif
