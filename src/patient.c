@@ -12,6 +12,32 @@
 #include "../include/ui.h"
 #include "../include/hospital.h"
 
+int patient_save_to_file(void) {
+    FILE* file = fopen(PATIENTS_FILE, "wb");
+    if (file == NULL) {
+        return -1;
+    }
+    fwrite(&patient_count, sizeof(int), 1, file);
+    fwrite(&patient_available, sizeof(int), 1, file);
+    fwrite(patients, sizeof(Patient), patient_count, file);
+    
+    fclose(file);
+    return 0;
+}
+
+int patient_load_from_file(void) {
+    FILE* file = fopen(PATIENTS_FILE, "rb");
+    if (file == NULL) {
+        return -1;
+    }
+    fread(&patient_count, sizeof(int), 1, file);
+    fread(&patient_available, sizeof(int), 1, file);
+    fread(patients, sizeof(Patient), patient_count, file);
+
+    fclose(file);
+    return 0;
+}
+
 int patient_generate_id(void) {
     return PATIENT_ID_START + patient_count;
 }
@@ -150,6 +176,7 @@ void patient_add(void) {
     // Add to array
     patients[patient_count] = new_patient;
     patient_count++;
+    patient_available++;
     
     ui_clear_screen();
     ui_print_banner();
@@ -170,16 +197,17 @@ void patient_add(void) {
 
 void patient_view_all() {
     
-    const char* menu_items[] = {""};
-    if (patient_count == 0) {
-        ui_print_menu("View All Patients", menu_items, 1, UI_SIZE);
-        ui_print_info("No patients found!");
-        ui_pause();
-        return;
-    }
     int count = 0;
     ui_clear_screen();
     ui_print_banner();
+
+    if (patient_available == 0 || patient_count == 0) {
+        const char* menu_items[] = {"No patients found!"};
+        ui_print_menu("View All Patients", menu_items, 1, UI_SIZE);
+        ui_pause();
+        return;
+    }
+
     for (int i = 0; i < patient_count; i++) {
         if (patients[i].is_active) {
             ui_print_patient(patients[i], count++);
@@ -190,14 +218,17 @@ void patient_view_all() {
 
 void patient_view_one() {
     
-    const char* menu_items[] = {""};
-    if (patient_count == 0) {
+    int count = 0;
+
+    if (patient_available == 0) {
+        ui_clear_screen();
+        ui_print_banner();
+        const char* menu_items[] = {"No patients found!"};
         ui_print_menu("View All Patients", menu_items, 1, UI_SIZE);
-        ui_print_info("No patients found!");
         ui_pause();
         return;
     }
-    int count = 0;
+    
     for (int i = 0; i < patient_count; i++) {
         ui_clear_screen();
         ui_print_banner();
@@ -650,7 +681,7 @@ void patient_update_using_id() {
     }
 }
 
-void patient_delete() {
+void patient_soft_delete() {
     int id;
     while (1) {
         ui_clear_screen();
@@ -695,6 +726,8 @@ void patient_delete() {
     if (input == 1) {
         patients[index].is_active = false;
         ui_print_success("Patient deleted successfully!");
+        patient_available--;
+        patient_unavailable++;
         ui_pause();
     } else {
         ui_print_info("Deletion cancelled.");
@@ -725,6 +758,9 @@ void patient_receptionist_menu(void) {
         switch (choice) {
             case 1:
                 patient_add();
+
+                // Save to file
+                patient_save_to_file();
                 break;
             case 2:
                 patient_view();
@@ -734,9 +770,15 @@ void patient_receptionist_menu(void) {
                 break;
             case 4:
                 patient_update_using_id();
+
+                // Save to file
+                patient_save_to_file();
                 break;
             case 5:
-                patient_delete();
+                patient_soft_delete();
+
+                // Save to file
+                patient_save_to_file();
                 break;
             case 6:
                 ui_print_info("Returning to main menu...");

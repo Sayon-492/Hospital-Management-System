@@ -11,6 +11,18 @@
 #include "hospital.h"
 
 /**
+ * Saves all patients to binary file.
+ * @return 0 on success, -1 on failure.
+ */
+int patient_save_to_file(void);
+
+/**
+ * Loads all patients from binary file.
+ * @return 0 on success, -1 if file doesn't exist.
+ */
+int patient_load_from_file(void);
+
+/**
 * Generates a unique patient ID.
 * @return The generated patient ID.
 */

@@ -121,6 +121,12 @@ extern User users[MAX_USERS];
 extern int patient_count;
 extern int doctor_count;
 extern int user_count;
+extern int patient_available;
+extern int patient_unavailable;
+extern int doctor_available;
+extern int doctor_unavailable;
+extern int user_available;
+extern int user_unavailable;
 
 /* Current user */
 extern User* current_user;
