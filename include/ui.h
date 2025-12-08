@@ -9,6 +9,8 @@
 #ifndef UI_H
 #define UI_H
 
+#include "hospital.h"
+
 /* 
  *==========================================================================
  *                         ANSI COLOR CODES                                  
@@ -40,6 +42,7 @@
 #define SOFT_CYAN      "\033[38;5;159m"
 #define SOFT_TEAL      "\033[38;5;44m"
 #define SOFT_GREEN     "\033[38;5;120m"
+#define SOFT_RED       "\033[38;5;124m"
 #define SOFT_BLUE      "\033[38;5;75m"
 #define SOFT_GRAY      "\033[38;5;250m"
 #define SOFT_YELLOW    "\033[38;5;187m"
@@ -169,4 +172,11 @@ void ui_pause(void);
  */
  void ui_print_menu(const char *title, const char *items[], int item_count, int box_width);
 
+/**
+ * Prints a patient in a box.
+ *
+ * @param patient The patient to print.
+ */
+ void ui_print_patient(Patient patient, int index);
+ 
  #endif

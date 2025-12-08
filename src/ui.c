@@ -28,24 +28,23 @@ void ui_pause(void) {
 }
 
 void ui_print_header(const char *title) {
-    ui_clear_screen();
-    printf(MAGENTA "\n%s\n" RESET, title);
+    printf(BG_NEON_PURPLE BOLD "  %s  " RESET, title);
 }
 
 void ui_print_success(const char *message) {
-    printf(GREEN "\n%s" RESET "\n", message);
+    printf(SOFT_GREEN "\n%s" RESET , message);
 }
 
 void ui_print_error(const char *message) {
-    printf(RED "\n%s" RESET "\n", message);
+    printf(SOFT_RED "\n%s" RESET , message);
 }
 
 void ui_print_warning(const char *message) {
-    printf(YELLOW "\n%s" RESET "\n", message);
+    printf(SOFT_YELLOW "\n%s" RESET , message);
 }
 
 void ui_print_info(const char *message) {
-    printf(BRIGHT_BLUE "\n%s" RESET "\n", message);
+    printf(SOFT_BLUE "\n%s" RESET , message);
 }
 
 
@@ -85,6 +84,7 @@ void ui_print_banner(void){
         }
         hms++;
     }
+    printf("\n");
 }
 
 void ui_print_menu
@@ -114,7 +114,7 @@ void ui_print_menu
     int title_padding = (box_width - title_len) / 2;
     printf(BRIGHT_BLACK "%c" RESET, v);
     for (int i = 0; i < title_padding; i++) printf(" ");
-    printf(BG_NEON_PURPLE BOLD "  %s  " RESET, title_upper);
+    ui_print_header(title_upper);
     for (int i = 0; i < box_width - title_padding - title_len; i++) printf(" ");
     printf(BRIGHT_BLACK "%c" RESET "\n", v);
     
@@ -137,4 +137,47 @@ void ui_print_menu
     printf("%c" RESET "\n\n", br);
     
     printf(BOLD SOFT_GREEN "%s" RESET, items[item_count - 1]);
+}
+
+void ui_print_patient(Patient patient, int index) {
+
+    char id_line[70];
+    snprintf(id_line, sizeof(id_line), "Patient ID: %d", patient.id);
+
+    char name_line[70];
+    snprintf(name_line, sizeof(name_line), "Name: %s", patient.name);
+
+    char age_line[70];
+    snprintf(age_line, sizeof(age_line), "Age: %d", patient.age);
+
+    char gender_line[70];
+    snprintf(gender_line, sizeof(gender_line), "Gender: %s", patient.gender == MALE ? "Male" : "Female");
+
+    char phone_line[70];
+    snprintf(phone_line, sizeof(phone_line), "Phone: %s", patient.phone);
+
+    char address_line[70];
+    snprintf(address_line, sizeof(address_line), "Address: %s", patient.address);
+
+    char blood_group_line[70];
+    snprintf(blood_group_line, sizeof(blood_group_line), "Blood Group: %s", patient.blood_group);
+
+    char active_line[70];
+    snprintf(active_line, sizeof(active_line), "Active: %s", patient.is_active ? "Yes" : "No");
+
+    const char* items[] = {
+        id_line,
+        name_line,
+        age_line,
+        gender_line,
+        phone_line,
+        address_line,
+        blood_group_line,
+        active_line,
+        ""
+    };
+
+    char title[70];
+    snprintf(title, sizeof(title), "Patient %d", index + 1);
+    ui_print_menu(title, items, 9, 72);
 }

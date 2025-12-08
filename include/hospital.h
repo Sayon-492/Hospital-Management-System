@@ -17,27 +17,40 @@
  *==========================================================================
  */
 
+#define UI_SIZE         72
+
 #define MAX_PATIENTS    100
 #define MAX_DOCTORS     50
 #define MAX_USERS       20
 
-#define NAME_SIZE       50
-#define PHONE_SIZE      15
-#define EMAIL_SIZE      50
-#define ADDRESS_SIZE    100
-#define SPEC_SIZE       30      /* Specialization */
-#define BLOOD_SIZE      5       /* Blood group */
-#define USERNAME_SIZE   30
-#define PASSWORD_SIZE   50
+#define NAME_SIZE           50
+#define PHONE_SIZE          15
+#define EMAIL_SIZE          50
+#define ADDRESS_SIZE        100
+#define SPEC_SIZE           30      /* Specialization */
+#define BLOOD_SIZE          5       /* Blood group */
+#define USERNAME_SIZE       30
+#define PASSWORD_SIZE       50
+#define GENDER_SIZE         10
+#define STATUS_SIZE         10
+
+#define ID_LINE_SIZE        20
+#define NAME_LINE_SIZE      NAME_SIZE + 20
+#define PHONE_LINE_SIZE     PHONE_SIZE + 20
+#define ADDRESS_LINE_SIZE   ADDRESS_SIZE + 20
+#define BLOOD_LINE_SIZE     BLOOD_SIZE + 20
+#define GENDER_LINE_SIZE    GENDER_SIZE + 20
+#define STATUS_LINE_SIZE    STATUS_SIZE + 20
 
 #define DATA_DIR        "data/"
 #define PATIENTS_FILE   "data/patients.dat"
 #define DOCTORS_FILE    "data/doctors.dat"
 #define USERS_FILE      "data/users.dat"
 
-#define PATIENT_ID_START    1001
-#define DOCTOR_ID_START     2001
-#define USER_ID_START       3001
+#define PATIENT_ID_START      1001
+#define DOCTOR_ID_START       2001
+#define ADMIN_ID_START        3001
+#define RECEPTIONIST_ID_START 4001
 
 /*
  *==========================================================================
@@ -48,7 +61,8 @@
 typedef enum {
     ROLE_ADMIN,
     ROLE_DOCTOR,
-    ROLE_RECEPTIONIST
+    ROLE_RECEPTIONIST,
+    ROLE_PATIENT
 } UserRole;
 
 typedef enum { 
@@ -107,6 +121,12 @@ extern User users[MAX_USERS];
 extern int patient_count;
 extern int doctor_count;
 extern int user_count;
+extern int patient_available;
+extern int patient_unavailable;
+extern int doctor_available;
+extern int doctor_unavailable;
+extern int user_available;
+extern int user_unavailable;
 
 /* Current user */
 extern User* current_user;

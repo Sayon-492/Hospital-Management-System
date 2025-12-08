@@ -10,6 +10,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include "hospital.h"
 
 /**
  * Clears the input buffer to prevent leftover characters.
@@ -86,6 +87,24 @@
  * @return true if valid name, false otherwise.
  */
  bool utils_is_valid_name(const char *name);
+
+/**
+ * Validates if an ID is in correct format.
+ * 
+ * @param id The ID to validate.
+ *
+ * @return true if valid ID, false otherwise.
+ */
+ bool utils_is_valid_id(int id, UserRole role);
+
+/**
+ * Validates if a gender is in correct format.
+ * 
+ * @param gender The gender string to validate.
+ *
+ * @return true if valid gender, false otherwise.
+ */
+ bool utils_is_valid_gender(const char *gender);
 
 /**
  * Converts a string to uppercase in-place.

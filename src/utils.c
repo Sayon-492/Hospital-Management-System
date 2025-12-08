@@ -137,6 +137,27 @@ bool utils_is_valid_name(const char *name) {
     return true;
 }
 
+bool utils_is_valid_id(int id, UserRole role) {
+    if (id < 0) return false;
+    
+    if (role == ROLE_PATIENT) {
+        if (id < 1001) return false;
+        if (id >= 2001) return false;
+    } else if (role == ROLE_DOCTOR) {
+        if (id < 2001) return false;
+        if (id >= 3001) return false;
+    } else if (role == ROLE_ADMIN) {
+        if (id < 3001) return false;
+        if (id >= 4001) return false;
+    } else if (role == ROLE_RECEPTIONIST) {
+        if (id < 4001) return false;
+        if (id >= 5001) return false;
+    }
+
+    return true;
+}
+
+
 char* utils_str_to_upper(char *str) {
     if (str == NULL) return NULL;
     for (int i = 0; str[i] != '\0'; i++) {
