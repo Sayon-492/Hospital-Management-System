@@ -78,4 +78,11 @@
  */
  void patient_view_discharged(void);
 
+/**
+ * Searches patient by ID and returns index.
+ * @param id The patient ID to search for.
+ * @return Index of patient in array, or -1 if not found.
+ */
+ int patient_search_id(int id);
+
 #endif
