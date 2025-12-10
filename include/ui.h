@@ -98,15 +98,13 @@
 /**
  * Pauses the program execution until the user presses a key.
  */
-void ui_pause(void);
+ void ui_pause(void);
  
 /**
  * Prints a formatted header with title.
  * 
  * @param title The title to display.
  */
- void ui_print_header(const char *title);
- 
  void ui_print_header(const char *title);
  
 /**
@@ -129,22 +127,17 @@ void ui_pause(void);
  
 /**
  * Prints a warning message in yellow.
- * Prints a warning message in yellow.
  * 
  * @param message The warning message.
  */
  void ui_print_warning(const char *message);
  
- void ui_print_warning(const char *message);
- 
 /**
- * Prints an info message in cyan.
  * Prints an info message in cyan.
  * 
  * @param message The info message.
  */
  void ui_print_info(const char *message);
- 
  
 /**
  * Prints the HMS banner.
@@ -178,5 +171,13 @@ void ui_pause(void);
  * @param patient The patient to print.
  */
  void ui_print_patient(Patient patient, int index);
+
+/**
+ * Prints a doctor in a box.
+ *
+ * @param doctor The doctor to print.
+ * @param index The display index.
+ */
+ void ui_print_doctor(Doctor doctor, int index);
  
  #endif

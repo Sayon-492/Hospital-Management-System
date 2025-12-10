@@ -628,7 +628,7 @@ void patient_update_using_id() {
     if (patients[index].is_active) {
         snprintf(status_line, STATUS_LINE_SIZE, "Status: Active");
     } else {
-        snprintf(status_line, STATUS_LINE_SIZE, "Status: Inactive");
+        snprintf(status_line, STATUS_LINE_SIZE, "Status: Discharged");
     }
 
     const char* menu_items[] = {
@@ -637,7 +637,6 @@ void patient_update_using_id() {
         address_line,
         blood_group_line,
         gender_line,
-        status_line,
         "Go back",
         "Enter which field to update: "
     };
@@ -647,7 +646,7 @@ void patient_update_using_id() {
 
     ui_clear_screen();
     ui_print_banner();
-    ui_print_menu(title, menu_items, 8, UI_SIZE);
+    ui_print_menu(title, menu_items, 7, UI_SIZE);
 
     int choice = utils_get_int();
     
@@ -668,9 +667,6 @@ void patient_update_using_id() {
             patient_update_gender(menu_items, index);
             break;
         case 6:
-            patient_update_status(menu_items, index);
-            break;
-        case 7:
             ui_print_info("Returning to receptionist menu...");
             ui_pause();
             break;
@@ -681,7 +677,7 @@ void patient_update_using_id() {
     }
 }
 
-void patient_soft_delete() {
+void patient_discharge() {
     int id;
     while (1) {
         ui_clear_screen();
@@ -692,8 +688,14 @@ void patient_soft_delete() {
             ">> "
         };
         
-        ui_print_menu("Delete Patient", enter_id_items, 2, UI_SIZE);
+        ui_print_menu("Discharge Patient", enter_id_items, 2, UI_SIZE);
         id = utils_get_int();
+
+        if (id == 0) {
+            ui_print_info("User Pressed 0. \nCanceling deletion...");
+            ui_pause();
+            return;
+        }
 
         if (!utils_is_valid_id(id, ROLE_PATIENT)) {
             ui_print_error("Invalid ID!");
@@ -715,24 +717,44 @@ void patient_soft_delete() {
     ui_print_patient(patients[index], index);
     
     const char* menu[] = {
-        "Confirm Delete",
+        "Confirm Discharge",
         "Cancel",
         ">> "
     };
     
-    ui_print_menu("Delete Patient", menu, 3, UI_SIZE);
+    ui_print_menu("Discharge Patient", menu, 3, UI_SIZE);
     int input = utils_get_int();
 
     if (input == 1) {
         patients[index].is_active = false;
-        ui_print_success("Patient deleted successfully!");
+        ui_print_success("Patient discharged successfully!");
         patient_available--;
         patient_unavailable++;
         ui_pause();
     } else {
-        ui_print_info("Deletion cancelled.");
+        ui_print_info("Discharge cancelled.");
         ui_pause();
     }
+}
+
+void patient_view_discharged(void) {
+    int count = 0;
+    ui_clear_screen();
+    ui_print_banner();
+
+    if (patient_unavailable == 0) {
+        const char* menu_items[] = {"No discharged patients found!"};
+        ui_print_menu("Discharged Patients", menu_items, 1, UI_SIZE);
+        ui_pause();
+        return;
+    }
+
+    for (int i = 0; i < patient_count; i++) {
+        if (!patients[i].is_active) {
+            ui_print_patient(patients[i], count++);
+        }
+    }
+    ui_pause();
 }
 
 void patient_receptionist_menu(void) {
@@ -744,43 +766,41 @@ void patient_receptionist_menu(void) {
         
         const char* menu_items[] = {
             "Add Patient",
-            "View Patients",
+            "View Active Patients",
+            "View Discharged Patients",
             "Search Patient",
             "Update Patient",
-            "Delete Patient",
+            "Discharge Patient",
             "Back to Main Menu",
             "Enter your choice: "
         };
         
-        ui_print_menu("Receptionist Menu", menu_items, 7, UI_SIZE);
+        ui_print_menu("Receptionist Menu", menu_items, 8, UI_SIZE);
         choice = utils_get_int();
         
         switch (choice) {
             case 1:
                 patient_add();
-
-                // Save to file
                 patient_save_to_file();
                 break;
             case 2:
                 patient_view();
                 break;
             case 3:
-                patient_search_by();
+                patient_view_discharged();
                 break;
             case 4:
-                patient_update_using_id();
-
-                // Save to file
-                patient_save_to_file();
+                patient_search_by();
                 break;
             case 5:
-                patient_soft_delete();
-
-                // Save to file
+                patient_update_using_id();
                 patient_save_to_file();
                 break;
             case 6:
+                patient_discharge();
+                patient_save_to_file();
+                break;
+            case 7:
                 ui_print_info("Returning to main menu...");
                 ui_pause();
                 break;
@@ -788,5 +808,5 @@ void patient_receptionist_menu(void) {
                 ui_print_error("Invalid choice! Please try again.");
                 ui_pause();
         }
-    } while (choice != 6);
+    } while (choice != 7);
 }

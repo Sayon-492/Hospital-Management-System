@@ -22,17 +22,18 @@
 #define MAX_PATIENTS    100
 #define MAX_DOCTORS     50
 #define MAX_USERS       20
+#define MAX_APPOINTMENTS 200
 
-#define NAME_SIZE           50
-#define PHONE_SIZE          15
-#define EMAIL_SIZE          50
-#define ADDRESS_SIZE        100
-#define SPEC_SIZE           30      /* Specialization */
-#define BLOOD_SIZE          5       /* Blood group */
-#define USERNAME_SIZE       30
-#define PASSWORD_SIZE       50
-#define GENDER_SIZE         10
-#define STATUS_SIZE         10
+#define NAME_SIZE       50
+#define PHONE_SIZE      15
+#define EMAIL_SIZE      50
+#define ADDRESS_SIZE    100
+#define SPEC_SIZE       30      /* Specialization */
+#define BLOOD_SIZE      5       /* Blood group */
+#define USERNAME_SIZE   30
+#define PASSWORD_SIZE   50
+#define GENDER_SIZE     10
+#define STATUS_SIZE     10
 
 #define ID_LINE_SIZE        20
 #define NAME_LINE_SIZE      NAME_SIZE + 20
@@ -42,15 +43,21 @@
 #define GENDER_LINE_SIZE    GENDER_SIZE + 20
 #define STATUS_LINE_SIZE    STATUS_SIZE + 20
 
-#define DATA_DIR        "data/"
-#define PATIENTS_FILE   "data/patients.dat"
-#define DOCTORS_FILE    "data/doctors.dat"
-#define USERS_FILE      "data/users.dat"
+#define DATA_DIR            "data/"
+#define PATIENTS_FILE       "data/patients.dat"
+#define DOCTORS_FILE        "data/doctors.dat"
+#define USERS_FILE          "data/users.dat"
+#define APPOINTMENTS_FILE   "data/appointments.dat"
 
 #define PATIENT_ID_START      1001
 #define DOCTOR_ID_START       2001
 #define ADMIN_ID_START        3001
 #define RECEPTIONIST_ID_START 4001
+#define APPOINTMENT_ID_START  5001
+
+#define REASON_SIZE     100
+#define TIME_SIZE       10
+#define DATE_SIZE       15
 
 /*
  *==========================================================================
@@ -69,6 +76,13 @@ typedef enum {
     MALE, 
     FEMALE 
 } Gender;
+
+typedef enum {
+    APPT_PENDING,
+    APPT_CONFIRMED,
+    APPT_COMPLETED,
+    APPT_CANCELLED
+} AppointmentStatus;
 
 /*
  *==========================================================================
@@ -106,6 +120,16 @@ typedef struct {
     bool is_active;
 } User;
 
+typedef struct {
+    int id;
+    int patient_id;
+    int doctor_id;
+    char date[DATE_SIZE];           // "DD-MM-YYYY"
+    char time_slot[TIME_SIZE];      // "10:00 AM"
+    char reason[REASON_SIZE];
+    AppointmentStatus status;
+} Appointment;
+
 /*
  *==========================================================================
  *                          GLOBAL DECLARATIONS
@@ -116,6 +140,7 @@ typedef struct {
 extern Patient patients[MAX_PATIENTS];
 extern Doctor doctors[MAX_DOCTORS];
 extern User users[MAX_USERS];
+extern Appointment appointments[MAX_APPOINTMENTS];
 
 /* User count variables */
 extern int patient_count;
@@ -127,6 +152,7 @@ extern int doctor_available;
 extern int doctor_unavailable;
 extern int user_available;
 extern int user_unavailable;
+extern int appointment_count;
 
 /* Current user */
 extern User* current_user;

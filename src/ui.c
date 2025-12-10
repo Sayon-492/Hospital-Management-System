@@ -162,8 +162,8 @@ void ui_print_patient(Patient patient, int index) {
     char blood_group_line[70];
     snprintf(blood_group_line, sizeof(blood_group_line), "Blood Group: %s", patient.blood_group);
 
-    char active_line[70];
-    snprintf(active_line, sizeof(active_line), "Active: %s", patient.is_active ? "Yes" : "No");
+    char status_line[70];
+    snprintf(status_line, sizeof(status_line), "Status: %s", patient.is_active ? "Active" : "Inactive");
 
     const char* items[] = {
         id_line,
@@ -173,11 +173,54 @@ void ui_print_patient(Patient patient, int index) {
         phone_line,
         address_line,
         blood_group_line,
-        active_line,
+        status_line,
         ""
     };
 
     char title[70];
     snprintf(title, sizeof(title), "Patient %d", index + 1);
+    ui_print_menu(title, items, 9, 72);
+}
+
+void ui_print_doctor(Doctor doctor, int index) {
+
+    char id_line[70];
+    snprintf(id_line, sizeof(id_line), "Doctor ID: %d", doctor.id);
+
+    char name_line[70];
+    snprintf(name_line, sizeof(name_line), "Name: %s", doctor.name);
+
+    char phone_line[70];
+    snprintf(phone_line, sizeof(phone_line), "Phone: %s", doctor.phone);
+
+    char email_line[70];
+    snprintf(email_line, sizeof(email_line), "Email: %s", doctor.email);
+
+    char spec_line[70];
+    snprintf(spec_line, sizeof(spec_line), "Specialization: %s", doctor.specialization);
+
+    char room_line[70];
+    snprintf(room_line, sizeof(room_line), "Room Number: %d", doctor.room_number);
+
+    char avail_line[70];
+    snprintf(avail_line, sizeof(avail_line), "Available: %s", doctor.is_available ? "Yes" : "No");
+
+    char status_line[70];
+    snprintf(status_line, sizeof(status_line), "Status: %s", doctor.is_active ? "Active" : "Inactive");
+
+    const char* items[] = {
+        id_line,
+        name_line,
+        phone_line,
+        email_line,
+        spec_line,
+        room_line,
+        avail_line,
+        status_line,
+        ""
+    };
+
+    char title[70];
+    snprintf(title, sizeof(title), "Doctor %d", index + 1);
     ui_print_menu(title, items, 9, 72);
 }
