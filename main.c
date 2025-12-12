@@ -72,7 +72,7 @@ void show_about(void) {
         ""
     };
     
-    ui_print_menu("About HMS", about_items, 7, UI_SIZE);
+    ui_print_menu_unnumbered("About HMS", about_items, 7, UI_SIZE);
     ui_pause();
 }
 

@@ -164,6 +164,15 @@
  * @param box_width The width of the box.
  */
  void ui_print_menu(const char *title, const char *items[], int item_count, int box_width);
+ /**
+  * Prints a menu in a box. Without numbering the items.
+  * 
+  * @param title The title of the menu.
+  * @param items The array of menu items.
+  * @param item_count The number of menu items.
+  * @param box_width The width of the box.
+  */
+  void ui_print_menu_unnumbered(const char *title, const char *items[], int item_count, int box_width);
 
 /**
  * Prints a patient in a box.
