@@ -176,5 +176,10 @@
  * @param index The display index.
  */
  void ui_print_receptionist(Receptionist receptionist, int index);
+
+/**
+ * Prints a dummy loading animation.
+ */
+ void ui_dummy_loading(int time);
  
  #endif

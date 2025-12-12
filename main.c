@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
     }
     
     // Initialize the system
+    ui_dummy_loading(30);
     hospital_init();
     ensure_data_dir();
     

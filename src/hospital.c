@@ -9,6 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef _WIN32
+    #include <direct.h>
+#else
+    #include <sys/stat.h>
+#endif
+
 #include "../include/hospital.h"
 #include "../include/patient.h"
 #include "../include/doctor.h"
@@ -84,12 +90,9 @@ void print_version(void) {
 }
 
 void ensure_data_dir(void) {
-
-    FILE* file = fopen(PATIENTS_FILE, "rb");
-    if (file == NULL) {
-        system("mkdir data 2>nul"); // 2>nul for already existing folder
-    } else {
-        fclose(file);
-    }
-
+    #ifdef _WIN32
+        _mkdir("data");
+    #else
+        mkdir("data", 0755);
+    #endif
 }

@@ -13,6 +13,11 @@
 #include "../include/ui.h"
 #include "../include/utils.h"
 
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>
+#endif
 
 void ui_clear_screen(void) {
     #ifdef _WIN32
@@ -258,4 +263,33 @@ void ui_print_receptionist(Receptionist receptionist, int index) {
     char title[70];
     snprintf(title, sizeof(title), "Receptionist %d", index + 1);
     ui_print_menu(title, items, 7, 72);
+}
+
+void ui_dummy_loading(int time) {
+    ui_clear_screen();
+    ui_print_banner();
+
+    const char arr[] = {'|', '/', '-', '\\'};
+    int i = 0;
+    int loading_time = 0;
+    printf("\n\n\n");
+    while (1) {
+        printf(BOLD BRIGHT_RED "\rLoading data from files... " RESET "%c", arr[i]);
+        fflush(stdout);
+        i = (i + 1) % 4;
+
+        #ifdef _WIN32
+            Sleep(100);
+        #else
+            usleep(100000);
+        #endif
+
+        loading_time++;
+        if (loading_time == time) break;
+    }
+    
+    ui_print_success("Successfully loaded data from files!\n");
+
+    ui_pause();
+    
 }
